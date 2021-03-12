@@ -1,0 +1,23 @@
+{
+  "name": "Week06-Day04",
+  "version": "1.0.0",
+  "description": "- More on MySQL\r - MySQL NPM\r - MySQL & Express\r - RESTful Routing",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QFults/Week06-Day04.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/QFults/Week06-Day04/issues"
+  },
+  "homepage": "https://github.com/QFults/Week06-Day04#readme",
+  "dependencies": {
+    "mysql2": "^2.2.5"
+  }
+}
