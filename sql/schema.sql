@@ -5,12 +5,14 @@ CREATE DATABASE restaurant_db;
 USE restaurant_db;
 
 CREATE TABLE entrees(
+    id INT PRIMARY KEY AUTO_INCREMENT,
 	name VARCHAR(25) NOT NULL,
     description VARCHAR(100) NOT NULL,
     price FLOAT NOT NULL
 );
 
 CREATE TABLE drinks(
+    id INT PRIMARY KEY AUTO_INCREMENT,
 	name VARCHAR(25) NOT NULL,
     size VARCHAR(7) NOT NULL,
     price FLOAT NOT NULL

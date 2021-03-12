@@ -9,9 +9,12 @@ const changeEntree = () => {
     prompt([
       {
         type: 'list',
-        name: 'name',
+        name: 'id',
         message: 'Select a Entree to Update the Price Of:',
-        choices: entrees.map(entree => entree.name)
+        choices: entrees.map(entree => ({
+          name: `${entree.name} ${entree.price}`,
+          value: entree.id
+        }))
       },
       {
         type: 'number',
@@ -19,8 +22,8 @@ const changeEntree = () => {
         message: 'Set a New Price For the Entree:'
       }
     ])
-      .then(({ name, price }) => {
-        db.query('UPDATE entrees SET ? WHERE ?', [{ price }, { name }], err => {
+      .then(({ id, price }) => {
+        db.query('UPDATE entrees SET ? WHERE ?', [{ price }, { id }], err => {
           if (err) { console.log(err) }
           console.log('Entree Price Updated!')
           mainMenu()
@@ -34,9 +37,12 @@ const changeDrink = () => {
     prompt([
       {
         type: 'list',
-        name: 'name',
+        name: 'id',
         message: 'Select a Drink to Update the Price Of:',
-        choices: drinks.map(drink => drink.name)
+        choices: drinks.map(drink => ({
+          name: `${drink.name} $${drink.price}`,
+          value: drink.id
+        }))
       },
       {
         type: 'number',
@@ -44,8 +50,8 @@ const changeDrink = () => {
         message: 'Set a New Price For the Drink:'
       }
     ])
-      .then(({ name, price }) => {
-        db.query('UPDATE drinks SET ? WHERE ?', [{ price }, { name }], err => { 
+      .then(({ id, price }) => {
+        db.query('UPDATE drinks SET ? WHERE ?', [{ price }, { id }], err => {
           if (err) { console.log(err) }
           console.log('Drink Price Updated!')
           mainMenu()
@@ -58,9 +64,12 @@ const deleteEntree = () => {
   db.query('SELECT * FROM entrees', (err, entrees) => {
     prompt({
       type: 'list',
-      name: 'name',
+      name: 'id',
       message: 'Select a Entree to Delete:',
-      choices: entrees.map(entree => entree.name)
+      choices: entrees.map(entree => ({
+        name: `${entree.name} ${entree.price}`,
+        value: entree.id
+      }))
     })
       .then(res => {
         db.query('DELETE FROM entrees WHERE ?', res, err => {
@@ -76,9 +85,12 @@ const deleteDrink = () => {
   db.query('SELECT * FROM drinks', (err, drinks) => {
     prompt({
       type: 'list',
-      name: 'name',
+      name: 'id',
       message: 'Select a Drink to Delete:',
-      choices: drinks.map(drink => drink.name)
+      choices: drinks.map(drink => ({
+        name: `${drink.name} $${drink.price}`,
+        value: drink.id
+      }))
     })
       .then(res => {
         db.query('DELETE FROM drinks WHERE ?', res, err => {
