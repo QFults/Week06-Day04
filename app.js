@@ -4,6 +4,92 @@ require('console.table')
 
 const db = createConnection('mysql://root:rootroot@localhost/restaurant_db')
 
+const changeEntree = () => {
+  db.query('SELECT * FROM entrees', (err, entrees) => {
+    prompt([
+      {
+        type: 'list',
+        name: 'name',
+        message: 'Select a Entree to Update the Price Of:',
+        choices: entrees.map(entree => entree.name)
+      },
+      {
+        type: 'number',
+        name: 'price',
+        message: 'Set a New Price For the Entree:'
+      }
+    ])
+      .then(({ name, price }) => {
+        db.query('UPDATE entrees SET ? WHERE ?', [{ price }, { name }], err => {
+          if (err) { console.log(err) }
+          console.log('Entree Price Updated!')
+          mainMenu()
+        })
+      })
+  })
+}
+
+const changeDrink = () => {
+  db.query('SELECT * FROM drinks', (err, drinks) => {
+    prompt([
+      {
+        type: 'list',
+        name: 'name',
+        message: 'Select a Drink to Update the Price Of:',
+        choices: drinks.map(drink => drink.name)
+      },
+      {
+        type: 'number',
+        name: 'price',
+        message: 'Set a New Price For the Drink:'
+      }
+    ])
+      .then(({ name, price }) => {
+        db.query('UPDATE drinks SET ? WHERE ?', [{ price }, { name }], err => { 
+          if (err) { console.log(err) }
+          console.log('Drink Price Updated!')
+          mainMenu()
+        })
+      })
+  })
+}
+
+const deleteEntree = () => {
+  db.query('SELECT * FROM entrees', (err, entrees) => {
+    prompt({
+      type: 'list',
+      name: 'name',
+      message: 'Select a Entree to Delete:',
+      choices: entrees.map(entree => entree.name)
+    })
+      .then(res => {
+        db.query('DELETE FROM entrees WHERE ?', res, err => {
+          if (err) { console.log(err) }
+          console.log('Entree Deleted!')
+          mainMenu()
+        })
+      })
+  })
+}
+
+const deleteDrink = () => {
+  db.query('SELECT * FROM drinks', (err, drinks) => {
+    prompt({
+      type: 'list',
+      name: 'name',
+      message: 'Select a Drink to Delete:',
+      choices: drinks.map(drink => drink.name)
+    })
+      .then(res => {
+        db.query('DELETE FROM drinks WHERE ?', res, err => {
+          if (err) { console.log(err) }
+          console.log('Drink Deleted!')
+          mainMenu()
+        })
+      })
+  })
+}
+
 const createEntree = () => {
   prompt([
     {
@@ -82,7 +168,15 @@ const mainMenu = () => {
     type: 'list',
     name: 'action',
     message: 'What would you like to do?',
-    choices: ['Create an Entree', 'Create a Drink', 'View All Entrees', 'View All Drinks']
+    choices: [
+      'Create an Entree',
+      'Create a Drink',
+      'Change an Entree Price',
+      'Change a Drink Price',
+      'View All Entrees',
+      'View All Drinks',
+      'Delete an Entree',
+      'Delete a Drink']
   })
     .then(({ action }) => {
       switch (action) {
@@ -92,11 +186,23 @@ const mainMenu = () => {
         case 'Create a Drink':
           createDrink()
           break
+        case 'Change an Entree Price':
+          changeEntree()
+          break
+        case 'Change a Drink Price':
+          changeDrink()
+          break
         case 'View All Entrees':
           viewEntrees()
           break
         case 'View All Drinks':
           viewDrinks()
+          break
+        case 'Delete an Entree':
+          deleteEntree()
+          break
+        case 'Delete a Drink':
+          deleteDrink()
           break
       }
     })
